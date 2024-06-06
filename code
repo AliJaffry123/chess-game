@@ -1,0 +1,330 @@
+#include <stdio.h>
+#include<stdlib.h>
+#include <ctype.h>
+
+// Define the board layout
+char board[8][8] = {{'r', 'k', 'b', 'q', 'a', 'b', 'k', 'r'},
+	{'p', 'p', 'p', 'p', 'p', 'p', 'p', 'p'},
+	{' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+	{' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+	{' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+	{' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+	{'P', 'P', 'P', 'P', 'P', 'P', 'P', 'P'},
+	{'R', 'K', 'B', 'Q', 'A', 'B', 'K', 'R'}
+};
+
+// Function to print the board
+void print_board() {
+	printf("    0  1  2  3  4  5  6  7\n");
+	int i,j;
+	for ( i = 0; i < 8; i++) {
+		printf("%d  ", i);
+		for ( j = 0; j < 8; j++) {
+			printf(" %c ", board[i][j]);
+
+		}
+		printf("\n");
+	}
+}
+
+//Function for collision
+int isCollision(int from_x, int from_y, int to_x, int to_y) {
+	switch(board[from_x][from_y]) {
+		case 'B':
+			for(int i=1; from_x<=to_x,from_y<=to_y; i++) {
+				if(board[from_x+i][from_y+i]=='P'||board[from_x+i][from_y+i]=='A'||board[from_x+i][from_y+i]=='Q'||board[from_x+i][from_y+i]=='R'||board[from_x+i][from_y+i]=='B'||board[from_x+i][from_y+i]=='K') {
+					printf("invalid move\n");
+					return 0;
+				} else if( board[from_x+i][from_y-i]=='P'||board[from_x+i][from_y-i]=='A'||board[from_x+i][from_y-i]=='Q'||board[from_x+i][from_y-i]=='R'||board[from_x+i][from_y-i]=='B'||board[from_x+i][from_y-i]=='K') {
+					printf("invalid move\n");
+					return 0;
+				} else if( board[from_x-i][from_y-i]=='P'||board[from_x-i][from_y-i]=='A'||board[from_x-i][from_y-i]=='Q'||board[from_x-i][from_y-i]=='R'||board[from_x-i][from_y-i]=='B'||board[from_x-i][from_y-i]=='K') {
+					printf("invalid move\n");
+
+					return 0;
+				} else if(board[from_x-i][from_y+i]=='P'||board[from_x-i][from_y+i]=='A'||board[from_x-i][from_y+i]=='Q'||board[from_x-i][from_y+i]=='R'||board[from_x-i][from_y+i]=='B'||board[from_x-i][from_y+i]=='K') {
+					printf("invalid move\n");
+					return 0;
+				}
+			}
+			break;
+		case 'b':
+			for(int i=1; from_x<=to_x,from_y<=to_y; i++) {
+				if(board[from_x+i][from_y+i]=='p'||board[from_x+i][from_y+i]=='a'||board[from_x+i][from_y+i]=='q'||board[from_x+i][from_y+i]=='r'||board[from_x+i][from_y+i]=='b'||board[from_x+i][from_y+i]=='k') {
+					printf("invalid move\n");
+					return 0;
+				} else if( board[from_x+i][from_y-i]=='p'||board[from_x+i][from_y-i]=='a'||board[from_x+i][from_y-i]=='q'||board[from_x+i][from_y-i]=='r'||board[from_x+i][from_y-i]=='b'||board[from_x+i][from_y-i]=='k') {
+					printf("invalid move\n");
+					return 0;
+				} else if( board[from_x-i][from_y-i]=='p'||board[from_x-i][from_y-i]=='a'||board[from_x-i][from_y-i]=='q'||board[from_x-i][from_y-i]=='r'||board[from_x-i][from_y-i]=='b'||board[from_x-i][from_y-i]=='k') {
+					printf("invalid move\n");
+					return 0;
+				} else if(board[from_x-i][from_y+i]=='p'||board[from_x-i][from_y+i]=='a'||board[from_x-i][from_y+i]=='q'||board[from_x-i][from_y+i]=='r'||board[from_x-i][from_y+i]=='b'||board[from_x-i][from_y+i]=='k') {
+					printf("invalid move\n");
+					return 0;
+				}
+			}
+			break;
+
+		case 'P':
+			for(int i=1; i<3; i++) {
+				if(board[from_x-i][from_y]=='P'||board[from_x-i][from_y]=='A'||board[from_x-i][from_y]=='Q'||board[from_x-i][from_y]=='R'||board[from_x-i][from_y]=='B'||board[from_x-i][from_y]=='K') {
+
+					printf("invalid move\n");
+					return 0;
+				}
+			}
+
+			break;
+		case 'p':
+			for(int i=1; i<3; i++) {
+				if(board[from_x+i][from_y]=='p'||board[from_x+i][from_y]=='a'||board[from_x+i][from_y]=='q'||board[from_x+i][from_y]=='r'||board[from_x+i][from_y]=='b'||board[from_x+i][from_y]=='k') {
+					printf("invalid move\n");
+					return 0;
+				}
+			}
+			break;
+
+//		case 'A':
+//			for(int i=1; from_x<=to_x,from_y<=to_x; i++) {
+//				if(board[from_x+i][from_y+i]=='P'||board[from_x+i][from_y+i]=='A'||board[from_x+i][from_y+i]=='Q'||board[from_x+i][from_y+i]=='R'||board[from_x+i][from_y+i]=='B'||board[from_x+i][from_y+i]=='K') {
+//					printf("invalid move\n");
+//					return 0;
+//				}
+//			}
+//			break;
+//		case 'a':
+//			for(int i=1; from_x<=to_x,from_y<=to_x; i++) {
+//				if(board[from_x+i][from_y+i]=='p'||board[from_x+i][from_y+i]=='a'||board[from_x+i][from_y+i]=='q'||board[from_x+i][from_y+i]=='r'||board[from_x+i][from_y+i]=='b'||board[from_x+i][from_y+i]=='k') {
+//					printf("invalid move\n");
+//					return 0;
+//				}
+//			}
+//			break;
+		case 'R':
+			for(int i=1; from_x<=to_x,from_y<=to_y; i++) {
+				if(board[from_x+i][from_y]=='P'||board[from_x+i][from_y]=='P'||board[from_x+i][from_y]=='Q'||board[from_x+i][from_y]=='R'||board[from_x+i][from_y]=='B'||board[from_x+i][from_y]=='K') {
+					printf("invalid move\n");
+					return 0;
+				} else if(board[from_x-i][from_y]=='P'||board[from_x-i][from_y]=='A'||board[from_x-i][from_y]=='Q'||board[from_x-i][from_y]=='R'||board[from_x-i][from_y]=='B'||board[from_x-i][from_y]=='K') {
+
+					printf("invalid move\n");
+					return 0;
+				} else if(board[from_x][from_y+i]=='P'||board[from_x][from_y+i]=='A'||board[from_x][from_y+i]=='Q'||board[from_x][from_y+i]=='R'||board[from_x][from_y+i]=='B'||board[from_x][from_y+i]=='K') {
+					printf("invalid move\n");
+
+					return 0;
+				} else if(board[from_x][from_y-i]=='P'||board[from_x][from_y-i]=='A'||board[from_x][from_y-i]=='Q'||board[from_x][from_y-i]=='R'||board[from_x][from_y-i]=='B'||board[from_x][from_y-i]=='K') {
+					printf("invalid move\n");
+					return 0;
+				}
+			}
+			break;
+		case 'r':
+			for(int i=1; from_x<=to_x,from_y<=to_y; i++) {
+
+				if(board[from_x+i][from_y]=='p'||board[from_x+i][from_y]=='a'||board[from_x+i][from_y]=='q'||board[from_x+i][from_y]=='r'||board[from_x+i][from_y]=='b'||board[from_x+i][from_y]=='k') {
+					printf("invalid move\n");
+					return 0;
+				} else if(board[from_x-i][from_y]=='p'||board[from_x-i][from_y]=='a'||board[from_x-i][from_y]=='q'||board[from_x-i][from_y]=='r'||board[from_x-i][from_y]=='b'||board[from_x-i][from_y]=='k') {
+
+					printf("invalid move\n");
+					return 0;
+				} else if(board[from_x][from_y+i]=='p'||board[from_x][from_y+i]=='a'||board[from_x][from_y+i]=='q'||board[from_x][from_y+i]=='r'||board[from_x][from_y+i]=='b'||board[from_x][from_y+i]=='k') {
+					printf("invalid move\n");
+					return 0;
+				} else if(board[from_x][from_y-i]=='p'||board[from_x][from_y-i]=='a'||board[from_x][from_y-i]=='q'||board[from_x][from_y-i]=='r'||board[from_x][from_y-i]=='b'||board[from_x][from_y-i]=='k') {
+					printf("invalid move\n");
+					return 0;
+				}
+			}
+
+			break;
+		case 'Q':
+			for(int i=1; from_x<=to_x,from_y<=to_y; i++) {
+				if(board[from_x+i][from_y+i]=='P'||board[from_x+i][from_y+i]=='A'||board[from_x+i][from_y+i]=='Q'||board[from_x+i][from_y+i]=='R'||board[from_x+i][from_y+i]=='B'||board[from_x+i][from_y+i]=='K') {
+					printf("invalid move\n");
+					return 0;
+				} else if( board[from_x+i][from_y-i]=='P'||board[from_x+i][from_y-i]=='A'||board[from_x+i][from_y-i]=='Q'||board[from_x+i][from_y-i]=='R'||board[from_x+i][from_y-i]=='B'||board[from_x+i][from_y-i]=='K') {
+					printf("invalid move\n");
+					return 0;
+				} else if( board[from_x-i][from_y-i]=='P'||board[from_x-i][from_y-i]=='A'||board[from_x-i][from_y-i]=='Q'||board[from_x-i][from_y-i]=='R'||board[from_x-i][from_y-i]=='B'||board[from_x-i][from_y-i]=='K') {
+					printf("invalid move\n");
+					return 0;
+				} else if(board[from_x-i][from_y+i]=='P'||board[from_x-i][from_y+i]=='A'||board[from_x-i][from_y+i]=='Q'||board[from_x-i][from_y+i]=='R'||board[from_x-i][from_y+i]=='B'||board[from_x-i][from_y+i]=='K') {
+					printf("invalid move\n");
+					return 0;
+				} else if(board[from_x+i][from_y]=='P'||board[from_x+i][from_y]=='P'||board[from_x+i][from_y]=='Q'||board[from_x+i][from_y]=='R'||board[from_x+i][from_y]=='B'||board[from_x+i][from_y]=='K') {
+					printf("invalid move\n");
+					return 0;
+				} else if(board[from_x-i][from_y]=='P'||board[from_x-i][from_y]=='A'||board[from_x-i][from_y]=='Q'||board[from_x-i][from_y]=='R'||board[from_x-i][from_y]=='B'||board[from_x-i][from_y]=='K') {
+
+					printf("invalid move\n");
+					return 0;
+				} else if(board[from_x][from_y+i]=='P'||board[from_x][from_y+i]=='A'||board[from_x][from_y+i]=='Q'||board[from_x][from_y+i]=='R'||board[from_x][from_y+i]=='B'||board[from_x][from_y+i]=='K') {
+					printf("invalid move\n");
+					return 0;
+				} else if(board[from_x][from_y-i]=='P'||board[from_x][from_y-i]=='A'||board[from_x][from_y-i]=='Q'||board[from_x][from_y-i]=='R'||board[from_x][from_y-i]=='B'||board[from_x][from_y-i]=='K') {
+					printf("invalid move\n");
+					return 0;
+				}
+			}
+			break;
+		case 'q':
+			for(int i=1; from_x<=to_x,from_y<=to_y; i++) {
+				if(board[from_x+i][from_y+i]=='p'||board[from_x+i][from_y+i]=='a'||board[from_x+i][from_y+i]=='q'||board[from_x+i][from_y+i]=='r'||board[from_x+i][from_y+i]=='b'||board[from_x+i][from_y+i]=='k') {
+					printf("invalid move\n");
+					return 0;
+				} else if( board[from_x+i][from_y-i]=='p'||board[from_x+i][from_y-i]=='a'||board[from_x+i][from_y-i]=='q'||board[from_x+i][from_y-i]=='r'||board[from_x+i][from_y-i]=='b'||board[from_x+i][from_y-i]=='k') {
+					printf("invalid move\n");
+					return 0;
+				} else if( board[from_x-i][from_y-i]=='p'||board[from_x-i][from_y-i]=='a'||board[from_x-i][from_y-i]=='q'||board[from_x-i][from_y-i]=='r'||board[from_x-i][from_y-i]=='b'||board[from_x-i][from_y-i]=='k') {
+					printf("invalid move\n");
+					return 0;
+				} else if(board[from_x-i][from_y+i]=='p'||board[from_x-i][from_y+i]=='a'||board[from_x-i][from_y+i]=='q'||board[from_x-i][from_y+i]=='r'||board[from_x-i][from_y+i]=='b'||board[from_x-i][from_y+i]=='k') {
+					printf("invalid move\n");
+					return 0;
+				} else	if(board[from_x+i][from_y]=='p'||board[from_x+i][from_y]=='a'||board[from_x+i][from_y]=='q'||board[from_x+i][from_y]=='r'||board[from_x+i][from_y]=='b'||board[from_x+i][from_y]=='k') {
+					printf("invalid move\n");
+					return 0;
+				} else if(board[from_x-i][from_y]=='p'||board[from_x-i][from_y]=='a'||board[from_x-i][from_y]=='q'||board[from_x-i][from_y]=='r'||board[from_x-i][from_y]=='b'||board[from_x-i][from_y]=='k') {
+
+					printf("invalid move\n");
+					return 0;
+				} else if(board[from_x][from_y+i]=='p'||board[from_x][from_y+i]=='a'||board[from_x][from_y+i]=='q'||board[from_x][from_y+i]=='r'||board[from_x][from_y+i]=='b'||board[from_x][from_y+i]=='k') {
+					printf("invalid move\n");
+					return 0;
+				} else if(board[from_x][from_y-i]=='p'||board[from_x][from_y-i]=='a'||board[from_x][from_y-i]=='q'||board[from_x][from_y-i]=='r'||board[from_x][from_y-i]=='b'||board[from_x][from_y-i]=='k') {
+					printf("invalid move\n");
+					return 0;
+				}
+			}
+			break;
+
+		default:
+			return 1;
+	}
+	return 1;
+}
+
+
+
+//Function to check if a piece can move to a particular position on the chess board/
+int isValidMove(int start_x_pos, int start_y_pos, int end_x_pos, int end_y_pos) {
+	//Check for pawns
+	if(board[start_x_pos][start_y_pos]=='P') {
+		if (start_x_pos==6) {
+			if(start_y_pos == end_y_pos && start_x_pos - 1 == end_x_pos || start_y_pos == end_y_pos && start_x_pos -2 == end_x_pos)
+				return 1;
+		} else if(start_y_pos == end_y_pos && start_x_pos - 1 == end_x_pos)
+			return 1;
+
+
+
+	} else if(board[start_x_pos][start_y_pos]=='p') {
+		if (start_x_pos==1) {
+			if(start_y_pos == end_y_pos && start_x_pos + 1 == end_x_pos || start_y_pos == end_y_pos && start_x_pos +2 == end_x_pos)
+				return 1;
+			printf("%d %d", start_x_pos, start_y_pos);
+		} else if (start_y_pos == end_y_pos && start_x_pos + 1 == end_x_pos)
+			return 1;
+
+
+	}
+
+
+	//Check for rooks
+	else if(board[start_x_pos][start_y_pos]=='r' || board[start_x_pos][start_y_pos]=='R') {
+		if(start_x_pos == end_x_pos || start_y_pos == end_y_pos)
+			return 1;
+
+	}
+
+	//Check for bishops
+	else if(board[start_x_pos][start_y_pos]=='b' || board[start_x_pos][start_y_pos]=='B') {
+		if(abs(start_x_pos - end_x_pos) == abs(start_y_pos - end_y_pos))
+			return 1;
+	}
+
+
+	//Check for knights
+	else if(board[start_x_pos][start_y_pos]=='k' || board[start_x_pos][start_y_pos]=='K') {
+		if((abs(start_x_pos - end_x_pos) == 2 && abs(start_y_pos - end_y_pos) == 1)
+		        || (abs(start_x_pos - end_x_pos) == 1 && abs(start_y_pos - end_y_pos) == 2))
+			return 1;
+	}
+
+
+	//Check for queens
+	else if(board[start_x_pos][start_y_pos]=='q' || board[start_x_pos][start_y_pos]=='Q') {
+		if(start_x_pos == end_x_pos || start_y_pos == end_y_pos ||
+		        abs(start_x_pos - end_x_pos) == abs(start_y_pos - end_y_pos))
+			return 1;
+	}
+
+
+	//Check for kings
+	else if(board[start_x_pos][start_y_pos]=='a' || board[start_x_pos][start_y_pos]=='A') {
+		if(abs(start_x_pos - end_x_pos) <= 1 && abs(start_y_pos - end_y_pos) <= 1)
+			return 1;
+	}
+
+
+	//If none of the above conditions match, return 0
+	else
+		return 0;
+}
+
+// Function to move pieces
+void move_piece(int from_x, int from_y, int to_x, int to_y) {
+
+	if(islower(board[from_x][from_y])==1 && isupper(board[from_x][from_y])==1) {
+		board[to_x][to_y] = board[from_x][from_y];
+// isValidMove(from_x, from_y, to_x, to_y);
+		board[from_x][from_y] = ' ';
+	} else if(islower(board[from_x][from_y])==0 && isupper(board[from_x][from_y])==0) {
+		board[to_x][to_y] = board[from_x][from_y];
+// isValidMove(from_x, from_y, to_x, to_y);
+		board[from_x][from_y] = ' ';
+	} else if(board[to_x][to_y]==' ') {
+		board[to_x][to_y] = board[from_x][from_y];
+// isValidMove(from_x, from_y, to_x, to_y);
+		board[from_x][from_y] = ' ';
+	}
+
+
+
+}
+
+int main() {
+	printf("Chess player 1 vs player 2\n\n");
+	printf("THIS CHESS WAS PROGRAMMED BY 22K-4279, 2KK-4623, 22K-4430\n");
+
+	for(;;) {
+		print_board();
+
+// player 1  turn
+		printf("\nplayer 1 Enter coordinates of piece to move and coordinates of square to move it to:\n");
+		int h_x1, h_y1, h_x2, h_y2;
+		scanf("%d%d%d%d", &h_x1, &h_y1, &h_x2, &h_y2);
+		if(isValidMove(h_x1, h_y1, h_x2, h_y2)==1 && isCollision(h_x1, h_y1, h_x2, h_y2)==1) {
+			move_piece(h_x1, h_y1, h_x2, h_y2);
+			print_board();
+		}
+
+
+// player 2 turn
+		printf("\nplayer 2 Enter coordinates of piece to move and coordinates of square to move it to:\n");
+		int c_x1, c_y1, c_x2, c_y2;
+		scanf("%d%d%d%d", &c_x1, &c_y1, &c_x2, &c_y2);
+		if(isValidMove(c_x1, c_y1, c_x2, c_y2)==1  && isCollision(h_x1, h_y1, h_x2, h_y2)==1) {
+			move_piece(c_x1, c_y1, c_x2, c_y2);
+
+		}
+
+		printf("\n\n");
+	}
+
+
+	return 0;
+}
